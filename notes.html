@@ -1,0 +1,532 @@
+<script>
+
+/*----------  Notes on Responsive Web Development  ----------*/
+/**
+ * There are 3 main sections to cover:
+ *
+ *   1 -- Build a site locally
+ *       |-- Intro to HTML5, CSS3, Git
+ *       |-- HTML5 exploration
+ *       |-- Sourcing CSS3
+ *       `-- Functionality & responsiveness with JS
+ *
+ *   2 -- Configure web server
+ *       |-- Linux server support
+ *       |-- Domain name purchase
+ *       |-- Pointing the domain at the server
+ *       |-- Apache config, Apache vs Nginx
+ *       `-- Securing the server, SSL w/Let's Encrypt, fail2ban
+ *
+ *   3 -- Deploy the site
+ *       `-- push local site to server to make it public (filezilla?)
+ */
+
+
+/*===============================================
+=            1. Build a site locally            =
+===============================================*/
+
+
+/*----------  General practices  ----------*/
+/**
+ * The general, basic steps of web development:
+ * --------------------------------------------
+ * -- Build the frontend (HTML, HTML5)
+ * -- Style it (CSS, CSS3)
+ * -- Deploy to public server
+ */
+
+
+/*----------  HTML  ----------*/
+/**
+ * HTML is a markup language, *not* a programming language
+ *
+ * Some common elements of an HTML website:
+ * ----------------------------------------
+ * -- header/nav-bar    site title, main navigational links, site icon/logo
+ * -- body/content      GUI of the website
+ * -- footer            site's bottom, more links, general site info, webmaster details
+ * -- SEO content       ex: using company's name in multiple places, acts as keyword
+ *
+ *
+ * The more basic a site layout is, the easier it will be to make it responsive
+ * 
+ */
+
+
+/*----------  CSS  ----------*/
+/**
+ * CSS is used to style the markup specified by HTML
+ *
+ * Some common elements of what CSS provides:
+ * ------------------------------------------
+ * -- coloring page elements
+ * -- positioning page elements (this is harder than you'd think)
+ * -- font styles, sizes, colors, fontfaces
+ *
+ *
+ *
+ * CSS3 is the newest 'flavor' of CSS
+ */
+
+
+ /*----------  Git  ----------*/
+/**
+ * Git is a method of tracking version control of development files and/or projects
+ *
+ * Some common elements of Git usage:
+ * ----------------------------------
+ * -- commit      creating notes for our work to push
+ * -- push        push the code to Git
+ *
+ *
+ *
+ * // TODO TODO TODO TODO TODO
+ * Using Git (after creating an account if you don't have one already)
+ *
+ *
+ */
+/*
+----------  Git install & setup  ----------
+
+!!Be sure you have a non-root user with sudo permissions!!
+
+-- Verify Git is or isn't installed on your machine (CentOS 7 in this example)
+    ~$ git --version
+    >> -bash: git: command not found
+
+(NOTE: the following steps are for CentOS 7 only, will be different for CentOS 6)
+
+-- Install epel repo
+    ~$ sudo yum install epel-release
+
+-- Run the installer
+    ~$ sudo yum install git
+
+-- Download the git-lfs repo (it's for storing large files with Git)
+    ~$ curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | sudo bash
+
+-- Install the package
+    ~$ sudo yum install git-lfs
+    ~$ git lfs install    // this must be done for every user, including root
+
+Now you're ready to configure Git
+
+
+-- Set a username, which will be your first and last name (optional, confirm afterwards)
+    ~$ git config --global user.name "Justin Sorensen"
+    ~$ git config --global user.name
+    >> Justin Sorensen
+
+-- Set a commit email address to provide a way to associate commits you've pushed
+     from the command line with your GitHub account, you can use the `no-reply` email
+     address GitHub set for you (see https://github.com/settings/emails)
+    ~$ git config --global user.email "jsore@users.noreply.github.com"
+
+NOTE: The previous two steps need to be repeated for any other users, including root
+
+
+You can also set individual repositories to use different email addresses by
+  navigating to that project's root folder and running the previous command without
+  the `--global` flag: `git config user.email "<emailaddress>`
+
+
+After adding your email to the config file, confirm (and/or add) the address you've
+  used under your GitHub account
+
+----------  Git install & setup  ----------
+
+
+
+----------  create a repository with `git init`  ----------
+
+Want to use a brand new directory/project?
+-- Create the directory, init a Git repository on it
+    ~$ mkdir newProject
+    ~$ cd newProject
+    ~$ sudo git init
+    >> Initialized empty Git repository in /path/to/project/.git
+
+Already have some content in the project?
+-- Go tothe root folder of the project and `init` that instead
+    ~$ cd existingProject
+    ~$ sudo git init
+    >> Initialized empty Git repository in /path/to/project/.git
+
+-- Once `init`ed, take a snapshot of the project's files to be stored in a
+     temporary 'staging area' called the `index`
+    ~$ sudo git add .
+
+    That will add all the files under the current directory
+    You can add individual files by replacing the period with filenames
+
+-- Now permamnetly store the contents of the index in repo:
+    $ sudo git commit -m <message>
+
+----------  create a repository with `git init`  ----------
+
+
+
+----------  github, setting it up and usage  ----------
+
+Right now, your project only exists locally on your Linux machine
+
+GitHub and Git are separate entities that were created to, essentially, talk to
+  each other in a easy to use way
+
+There are two ways to connect a project to GitHub, via an HTTPS connection or SSH
+The `https://` clone URLs are available on every GitHub repository
+I'll be using HTTPS, which is the method recommended by GitHub
+
+If you want to set up an SSH connection instead:
+    https://help.github.com/articles/which-remote-url-should-i-use/#cloning-with-ssh-urls
+
+When you `git clone|fetch|pull|push` to a remote repo using an HTTPS URL in the
+  CLI, you'll be asked for your GitHub username/password
+
+To get started, you'll need to add something called a `remote`, which is basically
+  just the "place where your code is stored" and a pointer to it
+
+A `remote` could be a GitHub repo, someone's fork or even on another server
+
+Git associates a `remote` URL with a name, usually defaulting to `origin`
+For example, running the command `git remote add origin https://github.com/project`
+  will associate the name `origin` with the specified URL
+
+-- In your GitHub profile, create a new repository, without initializing it with
+     a `README`, license or `gitignore` files, they can be added after your
+     project is pushed to GitHub and will help you avoid errors
+
+-- Go to your project's root directory and initialize it as a Git repository if
+     it hasn't been initialized to Git already
+    ~$ sudo git init
+    >> Initialized empty Git repository in /path/to/project/.git
+
+-- Stage your files, in this example all of them, to your Git index and commit
+    ~$ sudo git add .
+    ~$ sudo git commit -m "First commit"
+    >> [master (root-commit) 45d2528] First commit
+    >> ...
+
+-- Grab the remote repository's HTTPS URL that Git provides you with and create
+     a new remote for your project, linking your project with your GitHub repo,
+     then verify the new remote
+    ~$ sudo git remote add origin https://github.com/jsore/testRepo.git
+    ~$ sudo git remote -v
+    >> origin https://github.com/jsore/testRepo.git (fetch)
+    >> origin https://github.com/jsore/testRepo.git (push)
+
+   The name `origin` is now associated with `https://github.com/jsore/testRepo.git`
+   Note: the name of the remote must be unique to any other remotes that already
+     exist in your local repository (if you have set any already), if you get an
+     error try using a different name
+
+-- Now push the changes you've just committed in your local repo to GitHub
+     with command `git push <remotename> <branchname>`, by defeault the
+     `<branchname>` will be set to `master`, so use that unless you've
+     created any other branches in your local repo
+    ~$ sudo git push -u origin master
+    >> Username for 'https://github.com': jsore
+    >> Password for 'https://jsore@github.com':
+
+----------  github, setting it up and usage  ----------
+
+
+
+----------  a note on `commit` messages  ----------
+
+If  -m <msg>  is not specified, the text editor will be started for you to write the message
+
+Typical convention of commit notes:
+    1st line: >50 char summarization of the changes, to be used as commit title
+    2nd line: completely blank, no text
+    3rd+ lines: a more thorough description of the changes made
+
+Git tracks CONTENT, not FILES
+
+The `add` command is provided to tell the system to start tracking changes
+  made to a new file and is used for both new and newly modified files, taking
+  a snapshot of given files and stages that content in the index, ready for
+  inclusion in the next commit
+
+----------  a note on `commit` messages  ----------
+
+
+
+
+
+
+----------  explanation of commands  ----------
+  git config <file-option> // defaults to --local (local repository configuration (/<dirname>/.git/config))
+                                other options:
+                                --system (write to system wide /etc/gitconfig)
+                                --global (write to global ~/.gitconfig)
+                                --file <filename> (use given config file)
+    four types of config files available:
+      ~/etc/gitconfig                 system wide config file
+      ~/.gitconfig                    ("global") user-specific config file
+      $XDF_CONFIG_HOME/git/config     2nd user-specific config file, $HOME/.config/git/config if this isn't set or empty
+      ~/path/to/project/.git/config   repository specific file
+
+git config -l  // list all configus
+----------  explanation of commands  ----------
+
+
+Tags
+
+Tags are used for creating stable releases. To create a tag for using with the Git Drupal Repository, first, ensure that you're following the tag naming convention if you're using this tag for making a release. From inside the directory of the project, an example is:
+
+ git tag 7.x-1.0
+
+Once the tag is created, you need to push the tag up to the master repository. By itself, push doesn't send the tags up, you also need to tell it to include the tags in the push by appending the --tags flag:
+
+git push --tags
+
+If you don't want to push all your tags, you can also be specific:
+Example:
+
+git push origin tag 7.x-1.0
+
+To check and confirm remote tags, the command is
+git tag -l
+
+
+
+----------  example scenarios  ----------
+    // remove file from the index and working tree
+    $ git rm path/to/filename
+
+    // shows the difference between HEAD and index file (what you'd commit if you  git commit  right now)
+    $ git diff --cached
+    // shows difference between working tree and the index file
+    $ git diff
+
+    // after commit'ing, you can check if the mssage looks how you expected
+    $ git show
+
+  // say you've edited some files
+  // --add them to the index
+$ git add path/to/file1 file2 file3
+  // you can see what is about to be committed
+$ git diff --cached  // specify --cached, else diff will show any changes made but not added to index
+  // want to view brief summary of situation?
+$ git status
+  // did you make any other changes to those or other files before commit?
+  // re-add them to the index and then keep yourself from doing that again by running commit now
+$ git add file1 file3
+$ git commit
+  // or, use  -a  instead of separate  add  command to automatically add modified (but not new) files to index $ commit
+$ git commit -a
+  // want to see a history of changes?
+$ git log  // or gitk
+  // want to see diffs at each step too?
+$ git log -p
+  // want to see an overview of the change for a feel of each step?
+$ git log --stat --summary
+
+
+----------  ignoring files  ----------
+
+A project will often generate files that you do not want to track with Git. This typically includes files generated by a build process or temporary backup files made by your editor. Of course, not tracking files with Git is just a matter of not calling git add on them. But it quickly becomes annoying to have these untracked files lying around; e.g. they make git add . practically useless, and they keep showing up in the output of git status.
+
+You can tell Git to ignore certain files by creating a file called .gitignore in the top level of your working directory, with contents such as:
+
+# Lines starting with '#' are considered comments.
+# Ignore any file named foo.txt.
+foo.txt
+# Ignore (generated) html files,
+*.html
+# except foo.html which is maintained by hand.
+!foo.html
+# Ignore objects and archives.
+*.[oa]
+
+See gitignore[5] for a detailed explanation of the syntax. You can also place .gitignore files in other directories in your working tree, and they will apply to those directories and their subdirectories. The .gitignore files can be added to your repository like any other files (just run git add .gitignore and git commit, as usual), which is convenient when the exclude patterns (such as patterns matching build output files) would also make sense for other users who clone your repository.
+
+If you wish the exclude patterns to affect only certain repositories (instead of every repository for a given project), you may instead put them in a file in your repository named .git/info/exclude, or in any file specified by the core.excludesFile configuration variable. 
+----------  ignoring files  ----------
+
+
+
+
+----------  basics, bare bones  ----------
+git init        create new repository
+git commit      "make these files/directories an official version I can go back to"
+                    // use:  git commit -m "message to append to the commit log"
+git add         add files to staging area
+                    // staging area: basically the files to be committed when running  git commit  command
+git log -p        see what happened, history of your commits (pretty-fied)
+git status      see current state of affairs; whats been added, what files havve been changed
+
+
+git-reset[1] and git-checkout[1] (with pathname parameters) to undo changes.
+
+
+----------  branches  ----------
+// different branches of your development process, allows you to have multiple
+//   versions of your code to work on different features or try things out
+
+$ git branch newBranchName      // create a new branch named newBranchName
+$ git branch                    // lists all branches, with a  *  denoting the branch currently working on
+>>   newBranchName
+>> * master                     // "master" is a default branch created automatically
+$ git checkout newBranchName    // make newBranchName the branch you want to work on
+                                // now, make a change to a file in newBranchName, then commit it...
+$ <save the file after editing>
+$ git commit -a
+$ git checkout master           // ...switch back to the master branch and edit/save another file...
+$ git commit -a                 // ...commit the changes made on that branch...
+                                // ...the two branches have now diverged, with different changes made in each!
+$ git merge newBranchName       // attempt to merge the two branches, newBranchName into master (since your currently working on master)
+                                // if no conflicts, you're done!
+$ git diff                      // if you do have conflicts, this shows the markers left in problematic files identifying the conflicts...
+$ git commit -a                 // ...after editing and resolving the conflicts, this commits the result of the merge
+$ gitk                          // this will show a graphical representation of the history
+                                // at this point, you can delete the new branch:
+$ git branch -d newBranchName
+                                // go down a rabbit hole on a branch and regret it? delete it:
+$ git branch -D crazy-idea
+// branches are cheap and easy, good ways to try something out
+
+
+
+Every commit has a 40-hexdigit id, sometimes called the "object name" or the "SHA-1 id", shown on the first line
+ of the git show output. You can usually refer to a commit by a shorter name, such as a tag or a branch name, but
+ this longer name can also be useful. Most importantly, it is a globally unique name for this commit: so if you
+ tell somebody else the object name (for example in email), then you are guaranteed that name will refer to the
+ same commit in their repository that it does in yours (assuming their repository has that commit at all). Since
+ the object name is computed as a hash over the contents of the commit, you are guaranteed that the commit can never
+ change without its name also changing.
+
+
+
+
+git checkout    go to a certain branch or commit
+                    // to create a new branch: git checkout -b
+git merge       get changes from one branch & bring them into your current branch
+
+----------  github, remote hosts  ----------
+// set up github
+git push        push changes from your computer to the remote       // only work for current branch
+git pull        pull any new changes from github to your computer   // only work for current branch
+
+----------  more advanced  ----------
+diff            see differences between the working (current) directory >> last commit or between two branches
+clone           copy remote repository to your computer
+reset           commonly used to undo  git add
+
+// alias
+git config --global alias.lg "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'"
+"Then you can  git lg"
+
+----------  git tag  ----------
+// add tag to something
+git tag -a -m name-to-give-the-tag <commit>  // -a assumed by default, if -m <message> not specified a text editor will open to write the tag name you want to assign
+// delete a tag
+git tag -d <tagname>
+// list tags
+git tag -l  //list all
+git tag --list 'V-*'  // list all that match pattern (shell wildcard, fnmatch(3))
+-i  // ignore case
+-m
+
+----------  collaboration  ----------
+
+
+Suppose that Alice has started a new project with a Git repository in /home/alice/project, and that Bob, who has a home directory on the same machine, wants to contribute.
+
+Bob begins with:
+
+bob$ git clone /home/alice/project myrepo
+
+This creates a new directory "myrepo" containing a clone of Alice’s repository. The clone is on an equal footing with the original project, possessing its own copy of the original project’s history.
+
+Bob then makes some changes and commits them:
+
+(edit files)
+bob$ git commit -a
+(repeat as necessary)
+
+When he’s ready, he tells Alice to pull changes from the repository at /home/bob/myrepo. She does this with:
+
+alice$ cd /home/alice/project
+alice$ git pull /home/bob/myrepo master
+
+This merges the changes from Bob’s "master" branch into Alice’s current branch. If Alice has made her own changes in the meantime, then she may need to manually fix any conflicts.
+
+The "pull" command thus performs two operations: it fetches changes from a remote branch, then merges them into the current branch.
+
+Note that in general, Alice would want her local changes committed before initiating this "pull". If Bob’s work conflicts with what Alice did since their histories forked, Alice will use her working tree and the index to resolve conflicts, and existing local changes will interfere with the conflict resolution process (Git will still perform the fetch but will refuse to merge --- Alice will have to get rid of her local changes in some way and pull again when this happens).
+
+Alice can peek at what Bob did without merging first, using the "fetch" command; this allows Alice to inspect what Bob did, using a special symbol "FETCH_HEAD", in order to determine if he has anything worth pulling, like this:
+
+alice$ git fetch /home/bob/myrepo master
+alice$ git log -p HEAD..FETCH_HEAD
+
+This operation is safe even if Alice has uncommitted local changes. The range notation "HEAD..FETCH_HEAD" means "show everything that is reachable from the FETCH_HEAD but exclude anything that is reachable from HEAD". Alice already knows everything that leads to her current state (HEAD), and reviews what Bob has in his state (FETCH_HEAD) that she has not seen with this command.
+
+If Alice wants to visualize what Bob did since their histories forked she can issue the following command:
+
+$ gitk HEAD..FETCH_HEAD
+
+This uses the same two-dot range notation we saw earlier with git log.
+
+Alice may want to view what both of them did since they forked. She can use three-dot form instead of the two-dot form:
+
+$ gitk HEAD...FETCH_HEAD
+
+This means "show everything that is reachable from either one, but exclude anything that is reachable from both of them".
+
+Please note that these range notation can be used with both gitk and "git log".
+
+After inspecting what Bob did, if there is nothing urgent, Alice may decide to continue working without pulling from Bob. If Bob’s history does have something Alice would immediately need, Alice may choose to stash her work-in-progress first, do a "pull", and then finally unstash her work-in-progress on top of the resulting history.
+
+When you are working in a small closely knit group, it is not unusual to interact with the same repository over and over again. By defining remote repository shorthand, you can make it easier:
+
+alice$ git remote add bob /home/bob/myrepo
+
+With this, Alice can perform the first part of the "pull" operation alone using the git fetch command without merging them with her own branch, using:
+
+alice$ git fetch bob
+
+Unlike the longhand form, when Alice fetches from Bob using a remote repository shorthand set up with git remote, what was fetched is stored in a remote-tracking branch, in this case bob/master. So after this:
+
+alice$ git log -p master..bob/master
+
+shows a list of all the changes that Bob made since he branched from Alice’s master branch.
+
+After examining those changes, Alice could merge the changes into her master branch:
+
+alice$ git merge bob/master
+
+This merge can also be done by pulling from her own remote-tracking branch, like this:
+
+alice$ git pull . remotes/bob/master
+
+Note that git pull always merges into the current branch, regardless of what else is given on the command line.
+
+Later, Bob can update his repo with Alice’s latest changes using
+
+bob$ git pull
+
+Note that he doesn’t need to give the path to Alice’s repository; when Bob cloned Alice’s repository, Git stored the location of her repository in the repository configuration, and that location is used for pulls:
+
+bob$ git config --get remote.origin.url
+/home/alice/project
+
+(The complete configuration created by git clone is visible using git config -l, and the git-config[1] man page explains the meaning of each option.)
+
+Git also keeps a pristine copy of Alice’s master branch under the name "origin/master":
+
+bob$ git branch -r
+  origin/master
+
+If Bob later decides to work from a different host, he can still perform clones and pulls using the ssh protocol:
+
+bob$ git clone alice.org:/home/alice/project myrepo
+
+Alternatively, Git has a native protocol, or can use http; see git-pull[1] for details.
+
+Git can also be used in a CVS-like mode, with a central repository that various users push changes to; see git-push[1] and gitcvs-migration[7].
+
+</script>
