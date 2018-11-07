@@ -1,12 +1,16 @@
+<!-- http://apachetestserver.com:8080/responsiveWebApp -->
 <html>
+<head>
+    <script src="https://use.fontawesome.com/89791a08de.js"></script>
+</head>
 <body>
 
     <header>  <!-- HTML5 syntax, synonymous with <div class="header"> -->
         <h1>Love's PC Repair</h1>
         <!-- navigation links -->
         <ul>
-            <li>About</li>
-            <li>Contact</li>
+            <li><a href="public_html/about.html">About</a></li>
+            <li><a href="public_html/contact.html">Contact</a></li>
             <li>Services</li>
         </ul>
     </header>
@@ -14,6 +18,13 @@
     <!-- main content wrapper -->
     <div>
         <h3>Love's PC Repair</h3>
+        <!-- <img src="assets/img/pc-repair.jpeg" width="300px" height="300px"> -->
+        <img src="assets/img/pc-repair.jpeg">
+        <audio controls>
+            <source src="audio1.mp3" type="audio/mp3">
+            <source src="audio1.ogg" type="audio/mp3">
+            Your browser does not support HTML5 Audio Elements
+        </audio>
         <h5>One-Stop-Shop for your IT needs!</h5>
         <p>
             Welcome to Love's PC Repair! We are fully capable of
@@ -23,6 +34,15 @@
             game? We can do that! We strive to be the one-stop-shop
             for all of your IT solution needs and desires!
         </p>
+        <!--
+        <iframe width="1051" height="600" src="https://www.youtube.com/embed/Z98hXV9GmzY" frameborder="0"
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        -->
+        <video width="560" height="315" controls>
+            <source src="assets/vid/movie.mp4" type="video/mp4">
+            <source src="assets/vid/movie.ogg" type="video/ogg">
+            Your browser does not support HTML5 Videos
+        </video>
     </div>
 
     <footer>
@@ -33,6 +53,8 @@
             Fort Worth, TX 76135
             Tel: (817) 555-0505
             Eml: info@lovespcrepair.com
+            <a href="https://www.facebook.com"><img src="assets/img/fb.png"></a>
+            <a href="https://www.facebokk.com"><i class="fa fa-facebook" aria-hidden="true"></i></a>
         </p>
         <a href="https://cryptosass.com">CryptoSASS LLC</a>
         <!-- nav links -->
