@@ -1,6 +1,26 @@
 /* .../assets/styles.css */
-.header {
-    background: #404040;  /* 000000 */
+
+
+/*defunct*/
+
+
+body {
+    /*background: #a3dcbb;*/  /* 00ff00 */
+    background: url('assets/img/pc-repair.jpeg');
+    text-align: center;
+    h1 {
+        /* all 'h1' attributes in the body */
+        color: #404040;  /* 000000 */
+        font-size: 35px;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #318153;
+}
+header {
+    background: rgba(0,0,0,0.6);  /* CSS3 */
+    /*opacity: 0.6;*/  /* CSS */
     top: 0;
     left: 0;
     right: 0;
@@ -11,16 +31,7 @@
         font-size: 25px;
     }
 }
-.body {
-    background: #a3dcbb;  /* 00ff00 */
-    text-align: center;
-    h1 {
-        /* all 'h1' attributes in the body */
-        color: #404040;  /* 000000 */
-        font-size: 35px;
-    }
-}
-.footer {
+footer {
     background: #cde4ff;
     h2 {
         /* all 'h2' attributes in the footer */

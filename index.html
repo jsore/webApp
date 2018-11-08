@@ -1,30 +1,55 @@
 <!-- http://apachetestserver.com:8080/responsiveWebApp -->
 <html>
 <head>
+    <title>Love's PC Repair</title>
+    <!-- meta -->
+    <meta name="viewport" content="width=device-width; maximum-scale=1">
+    <!-- fonts -->
     <script src="https://use.fontawesome.com/89791a08de.js"></script>
+    <!-- other project files -->
+    <link rel="stylesheet" type="text/css" href="assets/styles2.css">
+    <script src="assets/functions.js"></script>
 </head>
+
 <body>
 
+    <!--------  header  -------->
     <header>  <!-- HTML5 syntax, synonymous with <div class="header"> -->
-        <h1>Love's PC Repair</h1>
-        <!-- navigation links -->
+        <a href=="index.html" id="logo">Love's PC Repair</a>
+
+        <!--------  header - menu  -------->
+        <nav>
+            <a href="#" id="menu-icon">&#9776;</a>
+        </nav>
+
+        <!--------  header - nav links  -------->
         <ul>
+            <li><a href="index.html" class="current">Home</a></li>  <!-- highlight current page -->
             <li><a href="public_html/about.html">About</a></li>
             <li><a href="public_html/contact.html">Contact</a></li>
-            <li>Services</li>
+            <li><a href="#">Services</a></li>
         </ul>
     </header>
 
-    <!-- main content wrapper -->
+
+    <!--------  body - wrapper  -------->
     <div>
-        <h3>Love's PC Repair</h3>
-        <!-- <img src="assets/img/pc-repair.jpeg" width="300px" height="300px"> -->
-        <img src="assets/img/pc-repair.jpeg">
+        <h3 class="title">Love's PC Repair</h3>
+        <img src="assets/img/pc-repair.jpeg" class="img-crcle">
+
+        <!--------  body - audio  -------->
         <audio controls>
             <source src="audio1.mp3" type="audio/mp3">
             <source src="audio1.ogg" type="audio/mp3">
             Your browser does not support HTML5 Audio Elements
         </audio>
+
+        <!--------  body - example code  -------->
+        <div id="timer1" style="visibility: hidden">
+            <p>Hello world!</p>
+        </div>
+
+        <!--------  body - mission statement  -------->
         <h5>One-Stop-Shop for your IT needs!</h5>
         <p>
             Welcome to Love's PC Repair! We are fully capable of
@@ -33,20 +58,45 @@
             better graphics card installed to play your favorite
             game? We can do that! We strive to be the one-stop-shop
             for all of your IT solution needs and desires!
+            <!--------  mission statement - example code  -------->
+            <input type="text" name="age" id="age" onchange="Age();" placeholder="Age: (25)">
+            <input type="text" name="year" id="year" onchange="Year();" placeholder="Year: (1993)">
         </p>
-        <!--
-        <iframe width="1051" height="600" src="https://www.youtube.com/embed/Z98hXV9GmzY" frameborder="0"
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        -->
-        <video width="560" height="315" controls>
-            <source src="assets/vid/movie.mp4" type="video/mp4">
-            <source src="assets/vid/movie.ogg" type="video/ogg">
-            Your browser does not support HTML5 Videos
-        </video>
+
+        <!--------  body - videos  -------->
+        <div id="show" style="display: block">
+            <h1>Watch videos</h1>
+        </div>
+            <!--------  videos - button functions  -------->
+            <button type="button" onclick="Vid1();">Video (Part 1)</button>
+            <button type="button" onclick="Vid2();">Video (Part 2)</button>
+            <!--------  videos - video 1  -------->
+            <div id="vid1" style="display: none">
+                <iframe
+                    class="video" width="560" height="315"
+                    src="https://www.youtube.com/embed/Z98hXV9GmzY" frameborder="0"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            </div>
+            <!--------  videos - video 2  -------->
+            <div id="vid2" style="display: none">
+                <!-- just some placeholders -->
+                <div class="circle"></div>
+                <div class="triangle"></div>
+            </div>
+            <!-------- final code version?  -------->
+            <!--<video width="560" height="315" controls>
+                <source src="assets/vid/movie.mp4" type="video/mp4">
+                <source src="assets/vid/movie.ogg" type="video/ogg">
+                Your browser does not support HTML5 Videos
+            </video>-->
     </div>
 
+
+    <!--------  footer  -------->
     <footer>
-        <!-- contact info, webmaster info -->
+        <!--------  contact info, webmaster info  -------->
         <p>
             Love's PC Repair
             1 Coder Way BLVD
@@ -57,7 +107,8 @@
             <a href="https://www.facebokk.com"><i class="fa fa-facebook" aria-hidden="true"></i></a>
         </p>
         <a href="https://cryptosass.com">CryptoSASS LLC</a>
-        <!-- nav links -->
+
+        <!--------  footer nav links  -------->
         <ul>
             <li>SiteMap</li>
             <li>Contact</li>
