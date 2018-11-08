@@ -87,81 +87,159 @@
  *
  */
 /*
-----------  Git install & setup  ----------
-
-!!Be sure you have a non-root user with sudo permissions!!
-
--- Verify Git is or isn't installed on your machine (CentOS 7 in this example)
-    ~$ git --version
-    >> -bash: git: command not found
-
-(NOTE: the following steps are for CentOS 7 only, will be different for CentOS 6)
-
--- Install epel repo
-    ~$ sudo yum install epel-release
-
--- Run the installer
-    ~$ sudo yum install git
-
--- Download the git-lfs repo (it's for storing large files with Git)
-    ~$ curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | sudo bash
-
--- Install the package
-    ~$ sudo yum install git-lfs
-    ~$ git lfs install    // this must be done for every user, including root
-
-Now you're ready to configure Git
 
 
--- Set a username, which will be your first and last name (optional, confirm afterwards)
-    ~$ git config --global user.name "Justin Sorensen"
-    ~$ git config --global user.name
-    >> Justin Sorensen
+===============================================================================
+=                       Install & Configure Git, Github                       =
+===============================================================================
 
--- Set a commit email address to provide a way to associate commits you've pushed
-     from the command line with your GitHub account, you can use the `no-reply` email
-     address GitHub set for you (see https://github.com/settings/emails)
-    ~$ git config --global user.email "jsore@users.noreply.github.com"
+------------  1. Install Git  -------------------------------------------------
 
-NOTE: The previous two steps need to be repeated for any other users, including root
+!! Be sure you have a non-root user with sudo permissions !!
+
+NOTE: the following steps are for CentOS 7 only, will be different for CentOS 6
+
+
+--- Verify that Git isn't already installed on your machine
+
+        $ git --version
+        > -bash: git: command not found    // <-- denotes that Git isn't installed
+        $ sudo yum install git
+
+
+--- Install epel repo and run the Git installer
+
+        $ sudo yum install epel-release
+        $ sudo yum install git
+
+
+--- Download the git-lfs repo (it's for storing large files with Git)
+
+        $ curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | sudo bash
+
+
+--- Install the package & confirm the installation is complete
+
+        $ sudo yum install git-lfs
+        $ sudo git lfs install
+        $ git --version
+        > git version 1.8.3.1
+
+    NOTE: The `sudo git lfs install` command needs to be repeated under every
+      user, including your server's `root` user
+
+-------------------------------------------------------------------------------
+
+
+------------  2. Configure Git  -----------------------------------------------
+
+--- Set a username object, using your first and last name
+
+        $ git config --global user.name "Justin Sorensen"
+        $ git config --global user.name
+        > Justin Sorensen
+
+
+--- Set a `commit` email address, to provide a way to associate `commit`s you
+      push from the command line with your GitHub account, you can use the
+      `no-reply` email address GitHub set for you here instead of an address
+      that you're actively using (see https://github.com/settings/emails)
+
+        $ git config --global user.email "jsore@users.noreply.github.com"
+
+    NOTE: Both of the commands for setting the `user.name` and `user.email` objects
+      also need to be repeated under every user - including the root user - like
+      the `sudo git lfs install` command, and make sure the email address you're
+      adding to the config is listed under your email addresses in your GitHub
+      account (or is the `no-reply` address GitHub gives you)
 
 
 You can also set individual repositories to use different email addresses by
-  navigating to that project's root folder and running the previous command without
-  the `--global` flag: `git config user.email "<emailaddress>`
+  navigating to that project's root folder and running the previous `user.email`
+  command without the `--global` flag: `git config user.email "<emailaddress>`
+
+This comes in handy if you're making a project for a specific person/group and
+  you'd like to actually receive notifications for push/pull requests on your repo
+
+-------------------------------------------------------------------------------
 
 
-After adding your email to the config file, confirm (and/or add) the address you've
-  used under your GitHub account
+----------  3. Create A Git Repo & Add Content  -------------------------------
 
-----------  Git install & setup  ----------
+NOTE: I've switched to my root user for the rest of this file, if you don't then
+  you'll likely have to prepend these commands with `sudo`
 
-
-
-----------  create a repository with `git init`  ----------
 
 Want to use a brand new directory/project?
--- Create the directory, init a Git repository on it
-    ~$ mkdir newProject
-    ~$ cd newProject
-    ~$ sudo git init
-    >> Initialized empty Git repository in /path/to/project/.git
 
-Already have some content in the project?
--- Go tothe root folder of the project and `init` that instead
-    ~$ cd existingProject
-    ~$ sudo git init
-    >> Initialized empty Git repository in /path/to/project/.git
+    --- Create the directory and init a Git repository on it
 
--- Once `init`ed, take a snapshot of the project's files to be stored in a
-     temporary 'staging area' called the `index`
-    ~$ sudo git add .
+            # mkdir newProject
+            # cd newProject
+            # sudo git init
+            > Initialized empty Git repository in /path/to/project/.git
 
-    That will add all the files under the current directory
-    You can add individual files by replacing the period with filenames
+Already have some content in the project and want to build a GitHub repo for it?
 
--- Now permamnetly store the contents of the index in repo:
-    $ sudo git commit -m <message>
+    --- Go tothe root folder of the project and `init` that instead
+
+            # cd existingProject
+            # sudo git init
+            > Initialized empty Git repository in /path/to/project/.git
+
+
+--- After you `init`, run the `add` command
+
+        # sudo git add .
+
+    The `add` command takes a snapshot of the content comprising the files in
+      your project and moves them into your repo's `index` - a `staging area`
+      that includes the files Git will publish to your repo the next time
+      you run `commit`
+
+    Which files `add` includes in your index is dependent on what options you pass
+    The most common options:
+      `git add .`         # <-- add to index files created/modified, not those deleted
+      `git add -u`        # <-- add to index files deleted/modified, not those created
+      `git add -A`        # <-- do both ^^ operations at once, adding all files to index
+      `git add filename`  # <-- add just the specified file(s) to the index
+
+    NOTE: Git tracks file CONTENT, *not* files or directories, it only cares about
+      what your files hold and the path required in order to get to that content
+
+    As an example: Say you're in the middle of a project and you're thinking about
+      how to structure your files for the project
+
+    You know for certain that some directories will need to be used at some point
+      in the future of this project and you want to go ahead and wireframe your
+      file structure out, so you drop a couple empty directories into your project
+      with the intention of filling them out with files later
+
+    Again - Git does not care about anything other than the content found in files,
+      which means if you try to `git add .` or `git add -A` an empty directory, Git
+      won't pay attention to those empty directories because they're not related to
+      any paths needed to get to what Git is watching - the content of files
+
+    There is no way around this, other than a hack-y loophole: create a file (a
+      README file is commonly used but any file will work) inside the 'empty'
+      directory and ammend your `add` by just running it again with the `-A` option
+
+
+--- Confirm what will be `commit`ed before committing, then `commit` if everything
+      shows what you were expecting to permanently store the contents in your repo's
+      index to your repo, replacing `<message>` with "a string you want to record"
+
+        # git commit -m <message>
+
+    If  -m <msg>  is not specified, your server's default text editor will be
+      started for you to write the message, it will normally be vi or vim so
+      enter `i` when the file opens, type your message, the save the commit text
+      by pressing `ESC` and typing `wq` then hitting the `Enter` key
+
+    The typical convention of commit notes:
+      1st line: >50 char summarization of the changes, to be used as commit title
+      2nd line: completely blank, no text
+      3rd+ lines: a more thorough description of the changes made
 
 ----------  create a repository with `git init`  ----------
 
@@ -233,24 +311,15 @@ For example, running the command `git remote add origin https://github.com/proje
 
 
 
-----------  a note on `commit` messages  ----------
+----------  a few general notes  ----------
 
-If  -m <msg>  is not specified, the text editor will be started for you to write the message
 
-Typical convention of commit notes:
-    1st line: >50 char summarization of the changes, to be used as commit title
-    2nd line: completely blank, no text
-    3rd+ lines: a more thorough description of the changes made
 
-Git tracks CONTENT, not FILES
 
-The `add` command is provided to tell the system to start tracking changes
-  made to a new file and is used for both new and newly modified files, taking
-  a snapshot of given files and stages that content in the index, ready for
-  inclusion in the next commit
+  
+  
 
-----------  a note on `commit` messages  ----------
-
+----------  a few general notes  ----------
 
 
 
