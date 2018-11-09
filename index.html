@@ -3,7 +3,7 @@
 <head>
     <title>Love's PC Repair</title>
     <!-- meta -->
-    <meta name="viewport" content="width=device-width; maximum-scale=1">
+    <meta name="viewport" content="width=device-width; maximum-scale=1">    <!-- ???? -->
     <!-- fonts -->
     <script src="https://use.fontawesome.com/89791a08de.js"></script>
     <!-- other project files -->
@@ -15,27 +15,31 @@
 
     <!--------  header  -------->
     <header>  <!-- HTML5 syntax, synonymous with <div class="header"> -->
-        <a href=="index.html" id="logo">Love's PC Repair</a>
+        <h3 class="title">
+            <a href="http://apachetestserver.com:8080/responsiveWebApp/index.html"
+            id="logo">Love's PC Repair</a>
+        </h3>
 
         <!--------  header - menu  -------->
         <nav>
             <a href="#" id="menu-icon">&#9776;</a>
+            <!--------  header - nav buttons  -------->
+            <ul>
+                <!-- highlight current page -->
+                <li><a href="http://apachetestserver.com:8080/responsiveWebApp/index.html"
+                    class="current">Home</a></li>
+                <li><a href="public_html/about.html">About</a></li>
+                <li><a href="public_html/contact.html">Contact</a></li>
+                <li><a href="#">Services</a></li>
+            </ul>
         </nav>
-
-        <!--------  header - nav links  -------->
-        <ul>
-            <li><a href="index.html" class="current">Home</a></li>  <!-- highlight current page -->
-            <li><a href="public_html/about.html">About</a></li>
-            <li><a href="public_html/contact.html">Contact</a></li>
-            <li><a href="#">Services</a></li>
-        </ul>
     </header>
 
 
     <!--------  body - wrapper  -------->
     <div>
         <h3 class="title">Love's PC Repair</h3>
-        <img src="assets/img/pc-repair.jpeg" class="img-crcle">
+        <!-- <img src="assets/img/pc-repair.jpeg" class="img-crcle"> -->
 
         <!--------  body - audio  -------->
         <audio controls>
@@ -50,7 +54,7 @@
         </div>
 
         <!--------  body - mission statement  -------->
-        <h5>One-Stop-Shop for your IT needs!</h5>
+        <h3 class="title">One-Stop-Shop for your IT needs!</h3>
         <p>
             Welcome to Love's PC Repair! We are fully capable of
             handling all of your IT solutions from cell phones to
@@ -65,7 +69,7 @@
 
         <!--------  body - videos  -------->
         <div id="show" style="display: block">
-            <h1>Watch videos</h1>
+            <h3 class="title">Watch videos</h3>
         </div>
             <!--------  videos - button functions  -------->
             <button type="button" onclick="Vid1();">Video (Part 1)</button>
@@ -98,13 +102,13 @@
     <footer>
         <!--------  contact info, webmaster info  -------->
         <p>
-            Love's PC Repair
-            1 Coder Way BLVD
-            Fort Worth, TX 76135
-            Tel: (817) 555-0505
-            Eml: info@lovespcrepair.com
-            <a href="https://www.facebook.com"><img src="assets/img/fb.png"></a>
-            <a href="https://www.facebokk.com"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            Love's PC Repair<br/>
+            1 Coder Way BLVD<br/>
+            Fort Worth, TX 76135<br/>
+            Tel: (817) 555-0505<br/>
+            Eml: info@lovespcrepair.com<br/>
+            <!-- <a href="https://www.facebook.com"><img src="assets/img/fb.png"></a> -->
+            <a href="https://www.facebokk.com"><i class="fa fa-facebook"></i></a>
         </p>
         <a href="https://cryptosass.com">CryptoSASS LLC</a>
 

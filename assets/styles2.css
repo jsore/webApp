@@ -1,11 +1,122 @@
 body {
     background: #9b9795;
+    font-family: sans-serif;
 }
 h1, h2, h3, h4, h5, h6 {
     color: rgb(163,220,187);
 }
 
 
+
+.video {
+    /** : left, right, shadow depth, shadow color; */
+    box-shadow: 20px 20px 15px #9fbac6;
+    left: 30%;
+    position: relative;
+}
+header {
+    /*background: rgba(0,0,0,0.6);*/
+    background: rgba(62,60,60);
+    width: 100%;
+    height: 90px;
+    top: 0;
+    left: 0;
+    border-bottom: 4px solid rgba(255,255,255,0.8);
+    /** keep content on top */
+    z-index: 100;
+    color: rgb(163,220,187);
+    font-size: 20px;
+    /*margin: 0px 0px 0px 0px;*/
+    /*padding: 0px 0px 0px 0px;*/
+}
+/** access specific HTML attribute by ID using #<idname> */
+#logo {
+    margin: 20px;
+    float: left;
+    width: 250px;
+    height: 40px;
+    display: block;
+    color: rgb(163,220,187);
+    font-size: 30px;
+}
+nav {
+    float: right;
+    padding: 20px;
+}
+#menu-icon {
+    width: 40px;
+    height: 40px;
+    color: rgba(255,255,255,0.8);
+    display: none;
+}
+a:hover#menu-icon {
+    background: #9fbac6;
+    border-radius: 4px 4px 0 0;
+    color: rgba(255,255,255,0.8);
+}
+ul {
+    list-style: none;
+}
+li {
+    color: rgba(255,255,255,0.8);
+    display: inline-block;
+    float: left;
+    padding: 10px;
+}
+a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+}
+.current {
+    color: #9fbac6;
+}
+
+/** for viewports less than 640px (tablets): */
+@media only screen and (max-width: 640px) {
+    header {
+        position: fixed;
+    }
+    #menu-icon {
+        /*display it*/
+        display: inline-block;
+        color: rgba(255,255,255,0.8);
+        width: 100%;
+    }
+    nav ul, nav:active ul {
+        position: absolute;
+        padding: 20px;
+        border: 4px solid rgba(255,255,255,0.8);
+        right: 20px;
+        top: 60px;
+        width: 100%;
+        border-radius: 20px;
+        display: none;  /** we want the list elements, not this */
+    }
+    nav li {
+        text-align: center;
+        width: 100%;
+        padding: 10px;
+        border: 4px solid rgba(255,255,255,0.8);
+        margin: 0;
+        margin-bottom: 10px;
+    }
+    nav:hover li {
+        display: block;
+    }
+    a {
+        color: rgba(255,255,255,0.8);
+        text-decoration: none;
+        font-size: 25px;
+    }
+}
+/** for viewports less than 320px (phones, mobile):; */
+/*@media only screen and (max-width: 320px) {
+
+}*/
+
+
+
+/** my style elements, not video's */
 .img-crcle {
     height: 300px;
     width: 300px;
@@ -19,7 +130,7 @@ h1, h2, h3, h4, h5, h6 {
     bottom: 70px;
     position: relative;
 }
-/** transparent circle of color */
+/** useless shapes - circle */
 .circle {
     width: 100px;
     height: 100px;
@@ -28,7 +139,7 @@ h1, h2, h3, h4, h5, h6 {
     -moz-border-radius: 100%;  /** 50px */
     -webkit-border-radius: 100%;  /** 50px */
 }
-/** transparent triangle of color */
+/** useless shapes - triangle */
 .triangle {
     /** these will be set in border attributes */
     height: 0;
@@ -40,33 +151,4 @@ h1, h2, h3, h4, h5, h6 {
     border-bottom: 100px solid rgba(255,0,0,0.6);
     /** upside down triangle */
     /*border-top: 100px solid rgba(255,0,0,0.6);*/
-}
-.video {
-    /** : left, right, shadow depth, shadow color; */
-    box-shadow: 20px 20px 15px #9fbac6;
-    left: 30%;
-    position: relative;
-}
-
-header {
-    background: rgba(0,0,0,0.6);
-    width: 100%;
-    height: 90px;
-    top: 0;
-    left: 0;
-    border-bottom: 5px solid #F0F0F0;
-    /** keep content on top */
-    z-index: 100;
-    color: rgb(163,220,187);
-    font-family: fantasy;
-    font-size: 20px;
-    /*margin: 0px 0px 0px 0px;*/
-    /*padding: 0px 0px 0px 0px;*/
-}
-/** access specific HTML attribute by ID using #<idname> */
-#logo {
-    margin: 20px;
-    float: left;
-    width: 200px;
-    height: 40px;
 }
