@@ -3,7 +3,7 @@
 <head>
     <title>Love's PC Repair</title>
     <!-- meta -->
-    <meta name="viewport" content="width=device-width; maximum-scale=1">    <!-- ???? -->
+    <meta name="viewport" content="width=device-width, maximum-scale=1">    <!-- ???? -->
     <!-- fonts -->
     <script src="https://use.fontawesome.com/89791a08de.js"></script>
     <!-- other project files -->
@@ -15,7 +15,8 @@
 
     <!--------  header  -------->
     <header>  <!-- HTML5 syntax, synonymous with <div class="header"> -->
-        <h3 class="title">
+        <!-- <h3 class="title"> -->
+        <h3>
             <a href="http://apachetestserver.com:8080/responsiveWebApp/index.html"
             id="logo">Love's PC Repair</a>
         </h3>
@@ -23,6 +24,7 @@
         <!--------  header - menu  -------->
         <nav>
             <a href="#" id="menu-icon">&#9776;</a>
+            <!-- </nav> -->
             <!--------  header - nav buttons  -------->
             <ul>
                 <!-- highlight current page -->
@@ -37,16 +39,16 @@
 
 
     <!--------  body - wrapper  -------->
-    <div>
+    <div class="bdy">
         <h3 class="title">Love's PC Repair</h3>
         <!-- <img src="assets/img/pc-repair.jpeg" class="img-crcle"> -->
 
         <!--------  body - audio  -------->
-        <audio controls>
+        <!-- <audio controls>
             <source src="audio1.mp3" type="audio/mp3">
             <source src="audio1.ogg" type="audio/mp3">
             Your browser does not support HTML5 Audio Elements
-        </audio>
+        </audio> -->
 
         <!--------  body - example code  -------->
         <div id="timer1" style="visibility: hidden">
@@ -55,17 +57,54 @@
 
         <!--------  body - mission statement  -------->
         <h3 class="title">One-Stop-Shop for your IT needs!</h3>
-        <p>
-            Welcome to Love's PC Repair! We are fully capable of
-            handling all of your IT solutions from cell phones to
-            laptops and desktops. Have a virus? We can help! Need a
-            better graphics card installed to play your favorite
-            game? We can do that! We strive to be the one-stop-shop
-            for all of your IT solution needs and desires!
+        <p class="introduction">
+            Welcome to Love's PC Repair! We are fully capable of<br/>
+            handling all of your IT solutions from cell phones to<br/>
+            laptops and desktops. Have a virus? We can help! Need a<br/>
+            better graphics card installed to play your favorite<br/>
+            game? We can do that! We strive to be the one-stop-shop<br/>
+            for all of your IT solution needs and desires!<br/>
+            <br/>
+            <!-- inline styles, class of bold -->
+            <b style="color: #9fbac6;">How old is your device?</b>
+            <br/>
             <!--------  mission statement - example code  -------->
             <input type="text" name="age" id="age" onchange="Age();" placeholder="Age: (25)">
+            &nbsp;  <!-- html encoded space -->
             <input type="text" name="year" id="year" onchange="Year();" placeholder="Year: (1993)">
         </p>
+
+        <!-------- body - some example text, using flexbox  -------->
+        <div class="centered">
+            <!-- 3 items - picture | text | picture -->
+            <div class="first">
+                <img src="assets/img/pc-repair.jpeg" class="banner">
+                <h1>Computer Repairs</h1>
+                <p>
+                    some text some text some text some text
+                     some text some text some text some text
+                    some text some text
+                </p>
+            </div>
+            <div class="second">
+                <img src="assets/img/pc-repair.jpeg" class="banner">
+                <h1>Cell Phone Repairs</h1>
+                <p>
+                    other text other text other text
+                     other text other text other text other text other text
+                     other text other text other text
+                </p>
+            </div>
+            <div class="third">
+                <img src="assets/img/pc-repair.jpeg" class="banner">
+                <h1>WiFi Network Configurations</h1>
+                <p>
+                    more text more text more text
+                     more text more text more text more text more text
+                     more text more text more text
+                </p>
+            </div>
+        </div>
 
         <!--------  body - videos  -------->
         <div id="show" style="display: block">
@@ -76,12 +115,13 @@
             <button type="button" onclick="Vid2();">Video (Part 2)</button>
             <!--------  videos - video 1  -------->
             <div id="vid1" style="display: none">
-                <iframe
+                <div class="circle"></div>
+                <!-- <iframe
                     class="video" width="560" height="315"
                     src="https://www.youtube.com/embed/Z98hXV9GmzY" frameborder="0"
                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen>
-                </iframe>
+                </iframe> -->
             </div>
             <!--------  videos - video 2  -------->
             <div id="vid2" style="display: none">
@@ -108,14 +148,17 @@
             Tel: (817) 555-0505<br/>
             Eml: info@lovespcrepair.com<br/>
             <!-- <a href="https://www.facebook.com"><img src="assets/img/fb.png"></a> -->
-            <a href="https://www.facebokk.com"><i class="fa fa-facebook"></i></a>
+            <!-- Facebook:  --><a href="https://www.facebokk.com"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <!-- LinkedIn:  --><a href="https://www.twitter.com"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <!-- GitHub:  --><a href="https://www.github.com"><i class="fa fa-github" aria-hidden="true"></i></a>
         </p>
-        <a href="https://cryptosass.com">CryptoSASS LLC</a>
+        <!-- basically a personal signature: -->
+        <a href="https://cryptosass.com" id="webmaster">CryptoSASS LLC</a>
 
         <!--------  footer nav links  -------->
-        <ul>
-            <li>SiteMap</li>
-            <li>Contact</li>
+        <ul id="footerUL">
+            <li><a href="#">Sitemap</a></li>
+            <li><a href="#">Contact</a></li>
         </ul>
     </footer>
 

@@ -606,6 +606,258 @@ Git can also be used in a CVS-like mode, with a central repository that various 
 
 
 
+/*==========================================
+=            deploying the site            =
+==========================================*/
+/**
+ * ----------  1. domain registration  ----------
+ * -- jsore.com
+ *
+ *
+ * steps made in walkthrough:
+ * -- go daddy
+ * -- search domain
+ * -- select one, add to cart, checkout
+ *
+ *
+ * ----------  2. 'setting up a VM'  ----------
+ * -- use linode info   45.56.74.80 | linodeJ
+ * my todo's:
+ * -- set linode VM hostname to domain (jsore.com)
+ * -- get whatever my password is for my linode server
+ *
+ *
+ * walkthrough uses a Digital Ocean 'Droplet' VSI with Ubuntu
+ *
+ * walkthrough's steps:
+ * -- digital ocean
+ * ---- create acct, confirm email address
+ *
+ * -- 'create droplet:'
+ * ---- select Ubuntu, pick VSI package
+ * ---- select misc. options
+ * ---- opt not to add SSH key at this time
+ * ---- set hostname = domain name that was purchased     // <-- NOTE NOTE NOTE, todo
+ * ---- create it
+ *
+ * -- ssh into IP of purchased VM ($ ssh root@ip.ip.ip.ip)
+ *
+ * -- accept ssh key
+ *
+ * -- login to server, change password from default
+ *
+ * -- $ sudo apt-get update
+ *
+ *
+ * ----------  3. security  ----------
+ * **** apache2 install ****
+ *  -- update the box
+ *     $ sudo apt-get update
+ *
+ *  -- logs in to root here
+ *
+ *  -- install apache2
+ *     # apt-get install apache2
+ *
+ *  -- confirm apache process is running okay
+ *    # apache2ctl configtest
+ *    >> Syntax OK
+ *
+ *  -- firewall adjust (? too simple?)
+ *    # ufw app list    // lists all running applications
+ *    >> Apache
+ *    >> Apache Full
+ *    >> Apache Secure
+ *    >> OpenSSH
+ *
+ *    # sudo ufw app info "Apache Full"    // review a running application
+ *
+ *    # sudo ufw allow in "Apache Full"    // allow incoming traffic from our profile
+ *
+ * -- put the IP of server into browser, should get Ubuntu Apache2 splash page
+ *
+ * -- edit default splash page at /var/www/html/index.html (he just appends some
+ *    text to the default file)
+ *
+ * **** fail2ban (= firewall) ****
+ * // software based firewall app
+ * // install it and configure it for apache
+ * // configure apache for fail2ban
+ *
+ *   -- install fail2ban
+ *     $ sudo apt-get install fail2ban
+ *
+ *  -- copy, backup fail2ban config file from /etc/
+ *  // jail.conf is basically firewall rules
+ *    $ sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+ *
+ *  -- update the conf NOTE NOTE NOTE - should this be the .local file instead?
+ *    $ sudo vi /etc/fail2ban/jail.conf
+ *      // set "bantime" from 600 to...
+ *        bantime = 3600
+ *      // change destemail from root@localhost to...
+ *        destemail = jus.a.sorensen@gmail.com
+ *      // change sender email address to...
+ *        sender = Fail2Ban@<domain.com>
+ *      // change email action/mta config to...
+ *        mta = mail
+ *      // just above the '# JAILS' section, change action = %(action_)s to...
+ *        action = %(action_mul)s   // or is it _nul with an 'n'?
+ *      // enable SSH, under '# JAILS' '# SSH servers' section, enable sshd and sshd-ddos
+ *        [sshd]
+ *        <empty line>
+ *        enabled = true
+ *        <...>
+ *        [sshd-ddos]
+ *        <empty line>
+ *        enabled = true
+ *      // under # HTTP servers...
+ *        [apache-auth]
+ *        <empty line>
+ *        enabled = true
+ *        <...>
+ *        [apache-badbots]
+ *        <empty line>
+ *        enabled = true
+ *        <...>
+ *        [apache-noscript]
+ *        <empty line>
+ *        enabled = true
+ *        <...>
+ *        [apache-overflows]
+ *        <empty line>
+ *        enabled = true
+ *        <...>
+ *        [apache-nohome]
+ *        <empty line>
+ *        enabled = true
+ *        <...>
+ *        [apache-fakegooglebot]
+ *        <empty line>
+ *        enabled = true
+ *        <...>
+ *        [apache-modsecurity]
+ *        <empty line>
+ *        enabled = true
+ *        <...>
+ *        [apache-shellshock]
+ *        <empty line>
+ *        enabled = true
+ *
+ *  -- restart firewall (fail2ban)
+ *    $ sudo servicectl fail2ban restart
+ *
+ *  -- review enabled jails
+ *   $ sudo fail2ban-client status
+ *
+ * I should now be able to list rules using centOS's view firewalld rules command
+ *
+ *  -- can also review whats being failed, example:
+ *    $ sudo fail2ban-client status apache-auth
+ *
+ *  -- locked out of SSH via fail2ban and need to unban? From server KVM
+ *    $ sudo fail2ban-client set apache unbanip <ip.ip.ip.ip of banned person>
+ *    // then change password from root dir with root access
+ *    $ sudo passwd <username>
+ *    >> enter new password:
+ *    >> confirm:
+ *    >> password updated
+ *
+ *
+ * **** Nginx ****
+ 
+ * **** letsencrypt/ssh keys ****
+ */
+
+
+/*----------  from: Node.js Web Development - Fourth Edition  ----------*/
+/**
+ * https://www.safaribooksonline.com/library/view/nodejs-web-development/9781788626859/a394797a-93e4-4ea7-9204-5aa0d350595c.xhtml
+ *
+ * With a correctly issued certificate, HTTPS validates the domain so that our users
+ * have some assurance they've visited a valid website, and that their data transfers
+ * are encrypted to prevent (casual) eavesdropping
+ *
+ * Let's Encrypt, a non-profit organization offering free SSL certificates. Most
+ * importantly, the process is completely automated and easy to set up and use
+ *
+ *
+ * -- typically, the server hosting provider will ask you to assign NS records for
+ * the domain to list the DNS servers operated by the server hosting provider. Such
+ * providers gives a list of NS server hostnames to assign as NS records to the
+ * hosting provider, then use the provider's dashboard for domain configuration
+ * -- goes to digital ocean
+ * -- 'add a domain', enters domain purchased
+ * -- the name servers populate, they must be copy/pasted to domain registrar website
+ *    under 'edit name servers' section
+ * -- he builds a VM
+ * -- then creates records in DO dashboard for the purchased domain
+ * -- pings domain to confirm records are legit
+ * -- does some stuff in the app he's building like setting up HTTP server, so that
+ *    now the app can be accessed using http://DOMAIN
+ *
+ * -- he then goes on to create a Docker container to manage LE SSL certs, using
+ *    a CLI tool 'certbot', a LE ACME client (fetches SSL certs from provider)
+ */
+
+
+/*----------  possible fix?  ----------*/
+/*
+//////////////////////////////
+[–]congowarrior
+ 
+3 points 2 months ago 
+
+Seems your install is typical. I just use
+
+sudo certbot
+
+and let the certbot client figure it out.
+
+    permalink embedsave reportgive goldreply
+
+[–]WannaBeBetterMe
+ 
+[S] 2 points 2 months ago 
+
+Wait, that's it? You use a single command and the whole thing gets set up?
+
+    permalink embedsave parentreportgive goldreply
+
+[–]congowarrior
+ 
+1 point 2 months ago 
+
+Follow the prompts after typing the command. Certbot will know the best way to configure either Apache or Nginx based on the conf files that you have created.
+//////////////////////////////
+
+//////////////////////////////
+[–]AstralPapaya
+ 
+1 point 2 months ago 
+
+You might have to edit:
+
+/etc/apache2/sites-enabled/000-default.conf
+
+and add this under <VirtualHost _default_:443>
+
+ServerAlias yourwebsite.com
+
+Then run
+
+sudo certbot --authenticator webroot --installer apache
+//////////////////////////////
+
+*/
+
+
+
+
+
+
+
+
 
 
 
