@@ -765,9 +765,52 @@ Git can also be used in a CVS-like mode, with a central repository that various 
  *
  *
  * **** Nginx ****
- 
- * **** letsencrypt/ssh keys ****
+ *
+ *
+ *
+ * **** letsencrypt ****
+ * basically, until DNS works, we're changing http://45.56.74.80/ >> https://
+ *
+ * NOTE: do i need to install lets encrypt/certbot first?
+ * NOTE: is it even possible to get an SSL cert for an IP address?
+ *
+ * -- add repository to install certbot
+ *   $ sudo add-apt-repository ppa:certbot/certbot
+ *
+ * -- update system to apply the certbot dir install
+ *   $ sudo apt-get update
+ *
+ * -- install python and certbot
+ *   $ sudo apt-get install python-certbot-apache
+ *
+ * -- execute interactive certbot process
+ *   $ sudo certbot --apache -d lovespcrepair.com -d www.lovespcrepair.com
+ *   > asks for email address
+ *   > asks to agree to terms/conditions
+ *   > share email address with EFF?
+ *
+ * -- set up autorenewal of certificate
+ *   $ sudo crontab -e
+ *   > select an editor
+ *
+ *   if you don't see a file already, run `$ sudo vi /tmp/crontab.thgtsi/crontab`
+ *
+ *   -- add these lines to the bottom of the file and save:
+ *     #15 3 * * * /usr/bin/certbot renew --quiet       <-- thats his, "renew every day at 3:15 am"
+ *     #<minute> <hour> <dayofmonth> <month> <dayofweek>, * == "any"
+ *     0 5 * * 4 /usr/bing/certbot renew --quiet        <-- mine, "renew every 4 weeks at 5:00 am"
+ *
+ * -- lets encrypt should now be set up for the domain
+ *
+ *
+ *
+ * **** passwords and SSH keys ****
  */
+
+
+
+
+
 
 
 /*----------  from: Node.js Web Development - Fourth Edition  ----------*/
@@ -801,55 +844,18 @@ Git can also be used in a CVS-like mode, with a central repository that various 
  */
 
 
-/*----------  possible fix?  ----------*/
-/*
-//////////////////////////////
-[–]congowarrior
- 
-3 points 2 months ago 
 
-Seems your install is typical. I just use
 
-sudo certbot
 
-and let the certbot client figure it out.
 
-    permalink embedsave reportgive goldreply
 
-[–]WannaBeBetterMe
- 
-[S] 2 points 2 months ago 
 
-Wait, that's it? You use a single command and the whole thing gets set up?
 
-    permalink embedsave parentreportgive goldreply
 
-[–]congowarrior
- 
-1 point 2 months ago 
 
-Follow the prompts after typing the command. Certbot will know the best way to configure either Apache or Nginx based on the conf files that you have created.
-//////////////////////////////
 
-//////////////////////////////
-[–]AstralPapaya
- 
-1 point 2 months ago 
 
-You might have to edit:
 
-/etc/apache2/sites-enabled/000-default.conf
-
-and add this under <VirtualHost _default_:443>
-
-ServerAlias yourwebsite.com
-
-Then run
-
-sudo certbot --authenticator webroot --installer apache
-//////////////////////////////
-
-*/
 
 
 
